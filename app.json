@@ -1,0 +1,57 @@
+{
+  "name": "Clesworks hyper connected enterprise",
+  "description" : "a simple cometd to kafka translation. WIP",
+  "repository":"https://github.com/arieunier/clesworkshce",
+  "keywords": ["python", "kafka"], 
+  "scripts": {
+    },
+  "formation": {
+    "worker" : {
+      "quantity": 1,
+      "size": "free"
+    },
+    "web" : {
+        "quantity": 1,
+        "size": "free"
+      }
+  },
+  "addons": [
+    {"plan": "timber-logging:free"},
+    {"plan": "librato:development"},
+    {"plan": "heroku-postgresql:hobby-dev"},
+    {"plan": "herokuconnect:demo"}
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ],
+  "env":
+    {
+      "CONSUMER_KEY": {
+        "Description" : "SF Connected App Consumer Key",
+        "value" : "SF Connected App Consumer Key",
+        "required" : false
+      },
+      "CONSUMER_SECRET": {
+        "Description" : "SF Connected App Consumer Secret",
+        "value" : "SF Connected App Consumer Secret",
+        "required" : false
+      },
+      "USERNAME": {
+        "Description" : "username of the SF Connected App",
+        "value" : "username of the SF Connected App",
+        "required" : false
+      },
+      "PASSWORD": {
+        "Description" : "password of the SF connected App",
+        "value" : "password of the SF connected App",
+        "required" : false
+      },
+      "TOPICS": {
+        "Description" : "list of topics",
+        "value" : "/topic/hc_301586;/data/AccountChangeEvent;/event/XX",
+        "required" : false
+      }
+    }
+}
