@@ -42,7 +42,7 @@ def retrieveCustomerDetails(accountnumber):
         a.BillingCity as "Customer_Address-City",
         a.BillingPostalCode as "Customer-Address-PostCode", 
         a.BillingCountry as "Customer-Address-Country", 
-        a.personbirthdate as "Customer-Date-Of-Birth"
+        to_char(a.personbirthdate, 'YYYY-MM-DD')  as "Customer-Date-Of-Birth"
         from salesforce.account a 
         where a.AccountNumber =  %(accountnumber)s
     """
@@ -57,8 +57,8 @@ def subscriptionStatus(deviceSerialNumber):
     select 
         sub.name as "Subscription-Type",
         sub.License_status__c as "Subscription-Status",
-        sub.valid_from__c as "Subscription-Valid__From",
-        sub.valid_till__c as "Subscription-Valid__Till"
+        to_char(sub.valid_from__c, 'YYYY-MM-DD') as "Subscription-Valid__From",
+        to_char(sub.valid_till__c, 'YYYY-MM-DD') as "Subscription-Valid__Till"
         from salesforce.subscription__c sub, salesforce.asset ass 
         where (sub.asset__c = ass.sfid and ass.serialnumber=%(deviceSerialNumber)s)
     """
@@ -99,7 +99,7 @@ def retrieveCustomerOrder(orderNumber):
                 select 
                         ord.accountId as "SF-Customer-Id",
                         ord.OrderNumber as "SF-Order-Number",
-                        ord.PoDate as "SF-Order-Header-Date",
+                        to_char(ord.PoDate, 'YYYY-MM-DD')  as "SF-Order-Header-Date",
                         ord.CurrencyIsoCode as "SF-Order-Header-Currency",
                         ord.TotalAmount as "SF-Order-Header-Net-Value",
                         ord.Type as "SF-Order-Header-Type",
