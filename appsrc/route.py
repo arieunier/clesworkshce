@@ -102,7 +102,7 @@ def customerPassions():
             CustomerNumber = received_args['Customer-Number']
         currentDecade=""
         if ('Current-Decade' in received_request):
-            currentDecade = received_request['Customer-Decade']
+            currentDecade = received_request['Current-Decade']
         else: #must be in the request.args
             currentDecade = received_args['Current-Decade']
 
