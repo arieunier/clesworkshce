@@ -13,20 +13,21 @@ session_postgres = dbSession_postgres()
 
 # init platform event table
 
-def insertTimeTravel(uid, CurrentTime, DestinationTime):
+def insertTimeTravel(uid_, CurrentTime, DestinationTime,Customer_Number__c):
     sqlRequest = """
-        insert into public.time_travel(id, Current_Time, Destionation_Time) values (%(id)s, %(CurrentTime)s,  %(DestinationTime)s)
+        insert into public.time_travel(id, "Current_Time", "Destination_Time", "Customer_Number") values (%(id)s, %(CurrentTime)s,  %(DestinationTime)s, %(Customer_Number__c)s)
     """
-    MANUAL_ENGINE_POSTGRES.execute(sqlRequest, {'id':uid,
-            'CurrentTime':CurrentTime,'DestinationTime':DestinationTime  })
-            
+    MANUAL_ENGINE_POSTGRES.execute(sqlRequest, {'id':uid_,
+            'CurrentTime':CurrentTime,'DestinationTime':DestinationTime , 'Customer_Number__c':Customer_Number__c})
+
 def initPETable():
     try:
         sqlRequest = """        
         create table public.time_travel(
         Id varchar(32) not null primary key,
         "Current_Time" varchar(20) not null,
-        "Destination_Time" varchar(20) not null);       
+        "Destination_Time" varchar(20) not null,
+        "Customer_Number" varchar(32) not null);       
         """
         result = MANUAL_ENGINE_POSTGRES.execute(sqlRequest, {})
         

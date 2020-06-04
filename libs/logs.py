@@ -10,7 +10,7 @@ logging.basicConfig(level=logging.DEBUG, format=LOG_FORMAT)
 # log activation
 def logger_init(loggername='app', filename='', debugvalue=LOG_LEVEL, flaskapp=None):
     global logger
-    #logging.getLogger('sqlalchemy.engine').setLevel(logging.DEBUG)
+    logging.getLogger('sqlalchemy.engine').setLevel(logging.DEBUG)
     if (logger == None):
         from logging.handlers import TimedRotatingFileHandler
 

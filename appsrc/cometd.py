@@ -34,8 +34,9 @@ async def stream_events():
             LOGGER.debug("Message Received => {} ".format(message))
             Current_Time__c = message["data"]["payload"]["Current_Time__c"]
             Destination_Time__c = message["data"]["payload"]["Destination_Time__c"]
-            uid = uuid.uuid4().__str__()
-            postgres.insertTimeTravel(uid, Current_Time__c, Destination_Time__c)
+            Customer_Number__c = message["data"]["payload"]["Customer_Number__c"]
+            uid = uuid.uuid4().__str__()[:32]
+            postgres.insertTimeTravel(uid, Current_Time__c, Destination_Time__c, Customer_Number__c)
 
 
 if __name__ == "__main__":
