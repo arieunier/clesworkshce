@@ -10,7 +10,42 @@ Base.metadata.bind = MANUAL_ENGINE_POSTGRES
 dbSession_postgres = sessionmaker(bind=MANUAL_ENGINE_POSTGRES)
 session_postgres = dbSession_postgres()
 
-      
+
+# init platform event table
+
+def insertTimeTravel(uid, CurrentTime, DestinationTime):
+    sqlRequest = """
+        insert into public.time_travel(id, Current_Time, Destionation_Time) values (%(id)s, %(CurrentTime)s,  %(DestinationTime)s)
+    """
+    MANUAL_ENGINE_POSTGRES.execute(sqlRequest, {'id':uid,
+            'CurrentTime':CurrentTime,'DestinationTime':DestinationTime  })
+            
+def initPETable():
+    try:
+        sqlRequest = """        
+        create table public.time_travel(
+        Id varchar(32) not null primary key,
+        "Current_Time" varchar(20) not null,
+        "Destination_Time" varchar(20) not null);       
+        """
+        result = MANUAL_ENGINE_POSTGRES.execute(sqlRequest, {})
+        
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+
+def checkPETable():
+    try:
+        sqlRequest = "select count(*) from public.time_travel"
+        result = __execRequest(sqlRequest, None)
+        #if we go there, it means the table exist !
+    except Exception as e:
+        #if we go there, it means the table does not exist and we have to create it
+        import traceback
+        traceback.print_exc()
+        initPETable()
+
+
 def __resultToDict(result):
     arrayData =  []
     column_names = [desc[0] for desc in result.cursor.description]
@@ -24,13 +59,11 @@ def __resultToDict(result):
     return arrayData
     #return {'data' : arrayData, 'columns': column_names}
 
-
 def __execRequest(strReq, Attributes):
     if (MANUAL_ENGINE_POSTGRES != None):
         result = MANUAL_ENGINE_POSTGRES.execute(strReq, Attributes)
         return __resultToDict(result)
     return {'data' : [], "columns": []}
-
 
 #Retreive customer details
 def retrieveCustomerDetails(accountnumber):

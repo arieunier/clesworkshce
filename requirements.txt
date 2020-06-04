@@ -7,3 +7,6 @@ gunicorn
 flask_script
 redis
 ujson
+pyopenssl
+asyncio
+aiosfstream
