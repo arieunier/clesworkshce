@@ -18,7 +18,7 @@ def __resultToDict(result):
     for entry in result:
         resDic = {}
         for column in column_names:
-            resDic[column.replace('___','-')] = entry[column]
+            resDic[column] = entry[column]
         arrayData.append(resDic)
     
     return arrayData
@@ -36,13 +36,13 @@ def __execRequest(strReq, Attributes):
 def retrieveCustomerDetails(accountnumber):
     sqlRequest = """
     select 
-        a.id as "Customer___Id", 
-        a.Name as "Customer___Name", 
-        a.BillingStreet as  "Customer___Address___Street", 
-        a.BillingCity as "Customer_Address___City",
-        a.BillingPostalCode as "Customer___Address___PostCode", 
-        a.BillingCountry as "Customer___Address___Country", 
-        a.personbirthdate as "Customer___Date___Of___Birth"
+        a.id as "Customer-Id", 
+        a.Name as "Customer-Name", 
+        a.BillingStreet as  "Customer-Address-Street", 
+        a.BillingCity as "Customer_Address-City",
+        a.BillingPostalCode as "Customer-Address-PostCode", 
+        a.BillingCountry as "Customer-Address-Country", 
+        a.personbirthdate as "Customer-Date-Of-Birth"
         from salesforce.account a 
         where a.AccountNumber =  %(accountnumber)s
     """
@@ -55,10 +55,10 @@ def retrieveCustomerDetails(accountnumber):
 def subscriptionStatus(deviceSerialNumber):
     sqlRequest = """
     select 
-        sub.name as "Subscription___Type",
-        sub.License_status__c as "Subscription___Status",
-        sub.valid_from__c as "Subscription___Valid__From",
-        sub.valid_till__c as "Subscription___Valid__Till"
+        sub.name as "Subscription-Type",
+        sub.License_status__c as "Subscription-Status",
+        sub.valid_from__c as "Subscription-Valid__From",
+        sub.valid_till__c as "Subscription-Valid__Till"
         from salesforce.subscription__c sub, salesforce.asset ass 
         where (sub.asset__c = ass.sfid and ass.serialnumber=%(deviceSerialNumber)s)
     """
@@ -97,42 +97,42 @@ def retrieveCustomerOrder(orderNumber):
     sqlRequestMaster="""
            WITH getAccountId as (
                 select 
-                        ord.accountId as "SF___Customer___Id",
-                        ord.OrderNumber as "SF___Order___Number",
-                        ord.PoDate as "SF___Order___Header___Date",
-                        ord.TotalAmount as "SF___Order___Header___Currency",
-                        ord.TotalAmount as "SF___Order___Header___Net___Value",
-                        ord.Type as "SF___Order___Header___Type",
-                        ord.sfid as "Order___Id"
+                        ord.accountId as "SF-Customer-Id",
+                        ord.OrderNumber as "SF-Order-Number",
+                        ord.PoDate as "SF-Order-Header-Date",
+                        ord.CurrencyIsoCode as "SF-Order-Header-Currency",
+                        ord.TotalAmount as "SF-Order-Header-Net-Value",
+                        ord.Type as "SF-Order-Header-Type",
+                        ord.sfid as "Order-Id"
                 from salesforce.order ord
                 where ord.ordernumber=%(orderNumber)s
                 )
-            select acc.Name as "SF___Order___Header___Customer___Name", 
-                    acc.Id__c as "SF___Customer___Id",
+            select acc.Name as "SF-Order-Header-Customer-Name", 
+                    acc.Id__c as "SF-Customer-Id",
                     ---acc.sfid,
-                    acc.personemail as "SF___Order___Header___Customer___email",
-                    acc.personmobilephone as "SF___Order___Header___Customer___Mobile",
-                    acc.BillingStreet as "SF___Order___Header___Billing___Address",
-                    acc.BillingCity as "SF___Order___Header___Billing___City",
-                    acc.BillingPostalCode as "SF___Order___Header___Billing___Postcode",
-                    acc.BillingCountry as "SF___Order___Header___Billing___Country",
-                    acc.ShippingStreet as "SF___Order___Header___Shipping___Address",
-                    acc.ShippingCity as "SF___Order___Header___Shipping___City",
-                    acc.ShippingPostalCode as "SF___Order___Header___Shipping___Postcode",
-                    acc.ShippingCountry as "SF___Order___Header___Shipping___Country",
+                    acc.personemail as "SF-Order-Header-Customer-email",
+                    acc.personmobilephone as "SF-Order-Header-Customer-Mobile",
+                    acc.BillingStreet as "SF-Order-Header-Billing-Address",
+                    acc.BillingCity as "SF-Order-Header-Billing-City",
+                    acc.BillingPostalCode as "SF-Order-Header-Billing-Postcode",
+                    acc.BillingCountry as "SF-Order-Header-Billing-Country",
+                    acc.ShippingStreet as "SF-Order-Header-Shipping-Address",
+                    acc.ShippingCity as "SF-Order-Header-Shipping-City",
+                    acc.ShippingPostalCode as "SF-Order-Header-Shipping-Postcode",
+                    acc.ShippingCountry as "SF-Order-Header-Shipping-Country",
                     getAcc.* 
             from salesforce.account acc, getAccountId getAcc
-            where acc.sfid = (select "SF___Customer___Id" from getAccountId)
+            where acc.sfid = (select "SF-Customer-Id" from getAccountId)
         """    
     sqlRequestSlave="""
         select
-            orditem.order_line_number__c as "SAP___Order___Item___and___Schedule___Number",
-            ---orditem.issued_serial_number__c as "SF___Order___Item___Serial___Number",
-            prod.productcode as "SF___Order___Item___Product___Number",
-            orditem.quantity as "SF___Order___Item___Quantity",
-            prod.quantityunitofmeasure as "SF___Order___Item___Unit",
-            orditem.unitprice as "SF___Order___Item___Value",
-            orditem.description as "SF___Order___Item___Description"
+            orditem.order_line_number__c as "SAP-Order-Item-and-Schedule-Number",
+            ---orditem.issued_serial_number__c as "SF-Order-Item-Serial-Number",
+            prod.productcode as "SF-Order-Item-Product-Number",
+            orditem.quantity as "SF-Order-Item-Quantity",
+            prod.quantityunitofmeasure as "SF-Order-Item-Unit",
+            orditem.unitprice as "SF-Order-Item-Value",
+            orditem.description as "SF-Order-Item-Description"
         from 
                 salesforce.order ord,
                 salesforce.orderitem orditem,
