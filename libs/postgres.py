@@ -143,11 +143,7 @@ def retrieveCustomerOrder(orderNumber):
                 prod.sfid=orditem.product2id
         """
     dataMaster = __execRequest(sqlRequestMaster, {'orderNumber':orderNumber})
-    print("NbResult={}".format(len(dataMaster)))
-    #logs.logger.info("dataMaster={}".format(dataMaster))
     dataSlave = __execRequest(sqlRequestSlave, {'orderNumber':orderNumber})
-    print("NbResult={}".format(len(dataSlave)))
-    #logs.logger.info("dataSlave={}".format(dataSlave))
 
 
     #need to add the slave part to the master paet
