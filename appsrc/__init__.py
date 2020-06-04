@@ -5,10 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask.json import JSONEncoder
 from libs import variables, logs, utils
-import flask_login
-from flask_login import LoginManager
 import uuid
-from flask_session import Session 
 from datetime import timedelta
 
 
