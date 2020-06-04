@@ -1,0 +1,7 @@
+flask
+sqlalchemy
+flask-sqlalchemy
+flask-migrate
+psycopg2
+gunicorn
+flask_script
