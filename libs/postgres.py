@@ -24,7 +24,7 @@ def initPETable():
     try:
         sqlRequest = """        
         create table public.time_travel(
-        Id varchar(32) not null primary key,
+        Id varchar(36) not null primary key,
         "Current_Time" varchar(20) not null,
         "Destination_Time" varchar(20) not null,
         "Customer_Number" varchar(32) not null);       

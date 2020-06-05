@@ -35,7 +35,7 @@ async def stream_events():
             Current_Time__c = message["data"]["payload"]["Current_Time__c"]
             Destination_Time__c = message["data"]["payload"]["Destination_Time__c"]
             Customer_Number__c = message["data"]["payload"]["Customer_Number__c"]
-            uid = uuid.uuid4().__str__()[:32]
+            uid = uuid.uuid4().__str__()
             postgres.insertTimeTravel(uid, Current_Time__c, Destination_Time__c, Customer_Number__c)
 
 
